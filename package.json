@@ -2,6 +2,10 @@
     "name": "vscode-structureformula-syntax",
     "displayName": "Tempo Structure Formula Syntax Highlighting",
     "description": "Syntax highlighting for Tempo Structure formulas (.struc, .structureformula files)",
+    "repository": {
+        "url": "https://github.com/fduch2k/vscode-structureformula-syntax.git",
+        "type": "git"
+    },
     "version": "0.1.4",
     "author": {
         "name": "Alexander Hramov",
