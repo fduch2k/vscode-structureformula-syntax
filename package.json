@@ -1,0 +1,25 @@
+{
+    "name": "vscode-structureformula-syntax",
+    "displayName": "Tempo Structure Formula Syntax Highlighting",
+    "description": "Syntax highlighting for Tempo Structure formulas (.struc, .structureformula files)",
+    "version": "0.1.4",
+    "author": {
+        "name": "Alexander Hramov",
+        "email": "alexander.hramov@gmail.com"
+    },
+    "publisher": "fduch2k",
+    "engines": { "vscode": "^1.70.0" },
+    "categories": ["Programming Languages"],
+    "contributes": {
+        "languages": [{
+            "id": "structureformula",
+            "extensions": [".struc", ".structureformula"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "structureformula",
+            "scopeName": "source.structureformula",
+            "path": "./syntaxes/structureformula.tmLanguage.json"
+        }]
+    }
+}

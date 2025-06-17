@@ -1,0 +1,364 @@
+{
+    "name": "Structure Formula (Tempo)",
+    "scopeName": "source.structureformula",
+    "fileTypes": [
+        "struc",
+        "structureformula"
+    ],
+    "uuid": "f8c3c0a0-5e2d-4f3c-8a7b-9d1e2c3f4a5b",
+    "patterns": [
+        {
+            "include": "#main_expression_context"
+        }
+    ],
+    "repository": {
+        "main_expression_context": {
+            "patterns": [
+                {
+                    "include": "#comments"
+                },
+                {
+                    "include": "#strings"
+                },
+                {
+                    "include": "#regex_literal"
+                },
+                {
+                    "include": "#keywords"
+                },
+                {
+                    "include": "#constants"
+                },
+                {
+                    "include": "#operators"
+                },
+                {
+                    "include": "#function_calls"
+                },
+                {
+                    "include": "#property_access"
+                },
+                {
+                    "include": "#standard_variables"
+                },
+                {
+                    "include": "#identifiers_general"
+                },
+                {
+                    "include": "#punctuation"
+                }
+            ]
+        },
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.structureformula",
+                    "match": "//.*"
+                },
+                {
+                    "name": "comment.block.structureformula",
+                    "begin": "/\\*",
+                    "end": "\\*/",
+                    "captures": {
+                        "0": {
+                            "name": "comment.block.structureformula"
+                        }
+                    }
+                }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.structureformula",
+                    "match": "\\b(?i:(ELSE|WITH|UNDEFINED))\\b(?!\\s*\\()"
+                },
+                {
+                    "name": "keyword.control.if.structureformula",
+                    "match": "\\b(?i:IF)\\b"
+                }
+            ]
+        },
+        "constants": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.float.structureformula",
+                    "match": "\\b[0-9]+\\.[0-9]+\\b"
+                },
+                {
+                    "name": "constant.numeric.integer.structureformula",
+                    "match": "\\b[0-9]+\\b"
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                {
+                    "name": "string.quoted.single.structureformula",
+                    "begin": "'",
+                    "end": "'",
+                    "patterns": [
+                        {
+                            "include": "#string_escapes"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.double.structureformula",
+                    "begin": "\"(?!\")",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "include": "#string_escapes"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.triple.structureformula",
+                    "begin": "\"\"\"",
+                    "end": "\"\"\"",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.begin.structureformula"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.string.end.structureformula"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#string_escapes"
+                        },
+                        {
+                            "include": "#string_interpolation"
+                        }
+                    ]
+                }
+            ]
+        },
+        "string_escapes": {
+            "patterns": [
+                {
+                    "name": "constant.character.escape.structureformula",
+                    "match": "\\\\."
+                }
+            ]
+        },
+        "string_interpolation": {
+            "patterns": [
+                {
+                    "begin": "\\$\\{",
+                    "end": "\\}",
+                    "name": "meta.interpolation.expression.structureformula",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.section.embedded.begin.structureformula"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.section.embedded.end.structureformula"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#main_expression_context"
+                        }
+                    ]
+                },
+                {
+                    "match": "(\\$)([a-zA-Z_][a-zA-Z0-9_]*)",
+                    "name": "meta.interpolation.variable.structureformula",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.section.embedded.begin.structureformula"
+                        },
+                        "2": {
+                            "name": "variable.other.interpolated.structureformula"
+                        }
+                    }
+                }
+            ]
+        },
+        "standard_variables": {
+            "match": "\\b(?i:(item|this|itemid|level|depth|notes|done|editable|affectsVersions|assignee|comments|components|created|creator|description|dueDate|environment|epic|epicLink|epicStories|stories|fixVersions|versions|key|issueKey|issueid|issueLinks|remoteLinks|issueType|labels|originalEstimate|parentTask|priority|project|remainingEstimate|reporter|resolution|resolved|resolutionDate|sprint|sprint_end_date|sprint_goal|sprint_start_date|subtasks|status|statusCategory|summary|timeSpent|updated|version_description|version_start_date|version_release_date|votes|watchers|workLogs|me))\\b",
+            "name": "variable.language.standard.structureformula"
+        },
+        "property_access": {
+            "patterns": [
+                {
+                    "match": "(\\b(?i:item|this|[a-zA-Z_][a-zA-Z0-9_]*)\\b)(\\.)(customField_[0-9]+)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "variable.other.object.structureformula"
+                        },
+                        "2": {
+                            "name": "punctuation.accessor.dot.structureformula"
+                        },
+                        "3": {
+                            "name": "variable.other.property.customfield.id.structureformula"
+                        }
+                    }
+                },
+                {
+                    "match": "(\\b(?i:item|this|[a-zA-Z_][a-zA-Z0-9_]*)\\b)(\\.)([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "variable.other.object.structureformula"
+                        },
+                        "2": {
+                            "name": "punctuation.accessor.dot.structureformula"
+                        },
+                        "3": {
+                            "name": "variable.other.property.structureformula"
+                        }
+                    }
+                }
+            ]
+        },
+        "function_calls": {
+            "patterns": [
+                {
+                    "include": "#aggregate_function_call"
+                },
+                {
+                    "include": "#builtin_function_call"
+                }
+            ]
+        },
+        "builtin_function_call": {
+            "begin": "\\b(?i:(ALL|ANY|ARRAY|COMPACT|CONTAINS|CONTAINS_ALL|CONTAINS_ANY|FILTER|FIRST|FLATTEN|GET|GROUP|INDEX_OF|INDEXES|IS_ARRAY|IS_EMPTY|JOIN|LAST|LAST_INDEX_OF|MAP|MERGE_ARRAYS|NONE|RECURSIVE_FLATTEN|REDUCE|REVERSE|SEQUENCE|SIZE|SORT|SORT_BY|SUBARRAY|UNIQUE|WITHOUT|CASE|CHOOSE|DEFINED|DEFAULT|IFERR|ISERR|DATE|DATE_ADD|DATE_SET|DATE_SUBTRACT|DAY|DAYS_BETWEEN|DATETIME|END_OF_MONTH|FORMAT_DATETIME|HOUR|HOURS_BETWEEN|MAKE_DATE|MAKE_DATETIME|MINUTE|MONTH|MONTHS_BETWEEN|NOW|PARSE_DATETIME|SECOND|START_OF_MONTH|TODAY|TRUNCATE_TIME|TRUNCATE_TO_HOURS|TRUNCATE_TO_MINUTES|TRUNCATE_TO_SECONDS|WEEKDAY|WEEKNUM|YEAR|YEARS_BETWEEN|CALENDAR_DAYS|CALENDAR_HOURS|CALENDAR_MINUTES|CALENDAR_SECONDS|CALENDAR_DURATION|DURATION|FORMAT_DURATION|JIRA_DAYS|JIRA_DURATION|JIRA_WEEKS|ABS|CEILING|FLOOR|LN|LOG|LOG10|MOD|MUL|NUMBER|POW|ROUND|SIGN|SQR|SQRT|SUM|AVERAGE|MAX|MEDIAN|MIN|PERCENTILE|QUARTILE|STDEV|STDEVP|UMAX|UMAX_BY|UMIN|UMIN_BY|EXACT|LEFT|LEN|LOWER|MATCH|MID|REPEAT|REPLACE|REPLACE_AT|RIGHT|SEARCH|SPLIT|SUBSTRING|TEXT|TRIM|UPPER|USER_NAME|USER_DISPLAY_NAME|USER_EMAIL|USER_IS_ACTIVE|ACCESS|HISTORICAL_VALUE|URL_ENCODE|URL_DECODE))\\s*(\\()",
+            "beginCaptures": {
+                "1": {
+                    "name": "support.function.builtin.structureformula"
+                },
+                "2": {
+                    "name": "punctuation.definition.parameters.begin.structureformula"
+                }
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.parameters.end.structureformula"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#main_expression_context"
+                }
+            ]
+        },
+        "aggregate_function_call": {
+            "begin": "\\b(?i:(ARRAY|AVG|COUNT|JOIN|MAX|MEDIAN|MIN|PARENT|PERCENTILE|QUARTILE1|QUARTILE3|SUM|VALUES))\\s*(\\{)",
+            "beginCaptures": {
+                "1": {
+                    "name": "support.function.aggregate.structureformula"
+                },
+                "2": {
+                    "name": "punctuation.section.braces.aggregate.begin.structureformula"
+                }
+            },
+            "end": "(\\})\\s*([#][a-zA-Z_0-9]+(?:=[^\\s\\)\\}]+)?)?",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.section.braces.aggregate.end.structureformula"
+                },
+                "2": {
+                    "patterns": [
+                        {
+                            "include": "#aggregate_modifier_parts"
+                        }
+                    ]
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#main_expression_context"
+                }
+            ]
+        },
+        "aggregate_modifier_parts": {
+            "match": "(#)([a-zA-Z_0-9]+)(?:(=)([^\\s\\)\\}]+))?",
+            "captures": {
+                "0": {
+                    "name": "keyword.other.modifier.structureformula"
+                },
+                "1": {
+                    "name": "punctuation.definition.modifier.structureformula"
+                },
+                "2": {
+                    "name": "entity.name.tag.modifier.structureformula"
+                },
+                "3": {
+                    "name": "punctuation.separator.key-value.modifier.structureformula"
+                },
+                "4": {
+                    "name": "constant.other.modifier.value.structureformula"
+                }
+            }
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.comparison.structureformula",
+                    "match": "!=|<>|<=|>=|=|<|>"
+                },
+                {
+                    "name": "keyword.operator.logical.symbol.structureformula",
+                    "match": "\\b&&|\\|\\||[&|!]|AND|OR|NOT\\b(?!\\s*\\()"
+                },
+                {
+                    "name": "keyword.operator.arithmetic.structureformula",
+                    "match": "[+\\-*/]"
+                },
+                {
+                    "name": "keyword.operator.text.structureformula",
+                    "match": "\\b(?i:CONCAT)\\b(?!\\s*\\()"
+                }
+            ]
+        },
+        "identifiers_general": {
+            "name": "variable.other.identifier.structureformula",
+            "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+        },
+        "regex_literal": {
+            "name": "string.regexp.structureformula",
+            "begin": "(?<=MATCH\\s*\\([^,]*,\\s*|CASE\\s*\\([^,]*,[^,]*,\\s*|REPLACE\\s*\\([^,]*,\\s*|SEARCH\\s*\\([^,]*,\\s*)\"/",
+            "end": "/\"",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.regexp.begin.structureformula"
+                }
+            },
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.regexp.end.structureformula"
+                }
+            },
+            "patterns": [
+                {
+                    "name": "constant.character.escape.regexp.structureformula",
+                    "match": "\\\\."
+                }
+            ]
+        },
+        "punctuation": {
+            "patterns": [
+                {
+                    "name": "punctuation.parenthesis.structureformula",
+                    "match": "[()]"
+                },
+                {
+                    "name": "punctuation.separator.parameter.structureformula",
+                    "match": "[,;]"
+                },
+                {
+                    "name": "punctuation.separator.colon.structureformula",
+                    "match": ":"
+                }
+            ]
+        }
+    }
+}
