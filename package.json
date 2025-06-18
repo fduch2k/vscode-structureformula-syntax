@@ -6,12 +6,13 @@
         "url": "https://github.com/fduch2k/vscode-structureformula-syntax.git",
         "type": "git"
     },
-    "version": "0.1.4",
+    "version": "0.1.5",
     "author": {
         "name": "Alexander Hramov",
         "email": "alexander.hramov@gmail.com"
     },
     "publisher": "fduch2k",
+    "icon": "icon.png",
     "engines": { "vscode": "^1.70.0" },
     "categories": ["Programming Languages"],
     "contributes": {
